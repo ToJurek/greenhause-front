@@ -1,10 +1,7 @@
-// @ts-ignore
 import styled from "styled-components";
 import React, {useState} from "react";
 import Chart from "../Chart";
-import {Params} from "../../types/params";
 import {useTypedSelector} from "../../domain/store";
-import {IMeasurement} from "../../types/measurements";
 
 interface IProps {
     className?: string;
@@ -19,22 +16,25 @@ const parameters = [
     {name: "moisture", title: ""},
 ]
 
-const ResultButton = ({className, icon, name, currentParam}: IProps) => {
+const MeasurementsButton = ({className, icon, name, currentParam}: IProps) => {
 
     const [isChartModal, setChartModal] = useState(false)
     const parameter = parameters[currentParam]
+
     // @ts-ignore
     const data = useTypedSelector(state => state.measurements[parameter.name])
+    // @ts-ignore
+    const weather = useTypedSelector(state => state.weather[parameter.name])
     return (
         <div className={className} onClick={() => setChartModal(true)}>
-            <Chart isChartModal={isChartModal} setChartModal={setChartModal} title={parameter.title} areaData={data}/>
+            <Chart isChartModal={isChartModal} setChartModal={setChartModal} title={parameter.title} areaData={data} splineDate={weather}/>
             <div className={"icon"}><img src={icon}/></div>
             <div className={"parameter-name"}>{name}</div>
         </div>
     )
 }
 
-const StyledResultButton = styled(ResultButton)`
+const StyledMeasurementsButton = styled(MeasurementsButton)`
   border-radius: 12px;
   border: #98CE00 3px solid;
   text-align: center;
@@ -56,5 +56,4 @@ const StyledResultButton = styled(ResultButton)`
   }
 `;
 
-// @ts-ignore
-export default StyledResultButton;
+export default StyledMeasurementsButton;
