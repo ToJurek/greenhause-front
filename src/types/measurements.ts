@@ -6,6 +6,5 @@ export interface IMeasurement {
 export interface IMeasurements {
     temp: IMeasurement[],
     sun: IMeasurement[],
-    humidity: IMeasurement[],
-    moisture: IMeasurement[]
+    humidity: IMeasurement[]
 }

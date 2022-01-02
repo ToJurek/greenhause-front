@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {IMeasurements} from "../../../types/measurements";
+import {IMeasurement, IMeasurements} from "../../../types/measurements";
+import {getMeasurements} from "../../../api/measurements";
+import moment from "moment";
 
 export const initialState: IMeasurements = {
 
-        temp: [{x: 1, y:2},{x: 2, y:3},{x: 3, y:4},{x: 4, y:5} ],
+        temp: [],
         sun: [],
-        humidity: [{x: 3, y:2},{x: 22, y:3},{x: 23, y:4},{x: 40, y:5}],
-        moisture: []
-
+        humidity: [],
 }
 
 
@@ -16,17 +16,54 @@ const measurements = createSlice({
     name: "measurements",
     initialState,
     reducers: {
-        fetchMeasurements: (
+        setTemperature: (
             state: IMeasurements,
-            action: PayloadAction<IMeasurements>
+            action: PayloadAction<IMeasurement[]>
         ) => {
-            state = action.payload
+            state.temp = action.payload
+        },
+        setSun: (
+            state: IMeasurements,
+            action: PayloadAction<IMeasurement[]>
+        ) => {
+            state.sun = action.payload
+        },
+        setHumidity: (
+            state: IMeasurements,
+            action: PayloadAction<IMeasurement[]>
+        ) => {
+            state.humidity = action.payload
         }
     }
 })
 
 export const {
-    fetchMeasurements
+    setTemperature,
+    setSun,
+    setHumidity
 } = measurements.actions
 
 export const measurementsReducer = measurements.reducer
+
+// @ts-ignore
+export const fetchSun = () => dispatch => {
+    const end = moment().unix() * 1000;
+    const start = end - 10800000
+    // @ts-ignore
+    getMeasurements(start, end, "sun").then(r => dispatch(setSun(r.data)))}
+
+// @ts-ignore
+export const fetchTemp = () => dispatch => {
+    const end = moment().unix() * 1000;
+    const start = end - 10800000
+    // @ts-ignore
+    getMeasurements(start, end, "temp").then(r => dispatch(setTemperature(r.data)))
+}
+
+// @ts-ignore
+export const fetchHumidity = () => dispatch => {
+    const end = moment().unix() * 1000;
+    const start = end - 10800000
+    // @ts-ignore
+    getMeasurements(start, end, "humidity").then(r => dispatch(setHumidity(r.data)))
+}

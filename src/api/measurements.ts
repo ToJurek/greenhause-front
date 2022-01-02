@@ -1,10 +1,9 @@
 import {endpoints} from "../types/endpoints";
-import {IMeasurements} from "../types/measurements";
-import {api} from "./api";
+import axios from "axios"
+import {IMeasurement} from "../types/measurements";
 
-
-export const getMeasurements = async (startDate: Date, endDate: Date) =>
-    api.get(`${endpoints.measurements}?start=${startDate}&end=${endDate}`)
+export const getMeasurements = async (startDate: number, endDate: number, parameter: string) =>
+      await axios.get<IMeasurement[]>(`${endpoints.measurements}?parameter=${parameter}&start=${startDate}&end=${endDate}`)
         .catch((err: string[])  => console.error(err))
 
 

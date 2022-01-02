@@ -45,6 +45,5 @@ export const defaultValuesReducer = defaultValues.reducer
 
 // @ts-ignore
 export  const updateDefaultValues = (newState: IDefaultValues) => async (dispatch) => {
-    console.log(newState)
     dispatch(changeDefaultValues(newState))
 }

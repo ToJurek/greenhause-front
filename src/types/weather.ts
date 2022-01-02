@@ -4,5 +4,4 @@ export interface IWeather {
     temp: IMeasurement[],
     sun: IMeasurement[],
     humidity: IMeasurement[],
-    moisture: IMeasurement[]
 }

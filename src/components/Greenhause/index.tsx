@@ -7,6 +7,9 @@ import SystemStatus from "../SystemStatus"
 import WelcomeView from "../WelcomeView";
 import StyledMonitorView from "../MonitorView";
 import {Params} from "../../types/params";
+import {useDispatch} from "react-redux";
+import {fetchHumidity, fetchSun, fetchTemp} from "../../domain/store/models/measurements";
+import {fetchWeather} from "../../domain/store/models/weather";
 
 
 interface IProps {
@@ -14,8 +17,19 @@ interface IProps {
 }
 
 const Greenhouse = ({className}: IProps) => {
+
+    const dispatch = useDispatch()
+
+   dispatch(fetchSun())
+   dispatch(fetchTemp())
+   dispatch(fetchHumidity())
+    dispatch(fetchWeather())
+
+
+
     const [isVisible, setVisible] = useState<boolean>(false)
     const [parameter, setParameter] = useState<Params|null>()
+
     return (
         <div className={className}>
             <SystemStatus isVisible={isVisible} setVisible={setVisible}/>
